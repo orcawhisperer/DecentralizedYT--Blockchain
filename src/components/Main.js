@@ -34,48 +34,7 @@ class Main extends Component {
                   <h5>
                      <b>Share Video</b>
                   </h5>
-                  <form
-                     onSubmit={(event) => {
-                        {
-                           /* Upload Video...*/
-                           event.preventDefault()
-                           const title = this.videoTitle.value
-                           this.props.uploadVideo(title)
-                        }
-                     }}
-                  >
-                     &nbsp;
-                     {/* Get Video...*/}
-                     <input
-                        id="video"
-                        type="file"
-                        accept=".mp4, .mkv, .ogg, .wmv"
-                        onChange={this.props.captureFile}
-                        className="form-control-sm"
-                        required
-                     ></input>
-                     <div className="form-group mr-sm-2">
-                        {/* Input...*/}
-                        <input
-                           id="videoTitle"
-                           type="text"
-                           className="form-control-sm"
-                           placeholder="Title.."
-                           ref={(input) => {
-                              this.videoTitle = input
-                           }}
-                           required
-                        ></input>
-                     </div>
-                     {/* Button...*/}
-                     <button
-                        type="submit"
-                        className="btn btn-danger btn-block btn-sm"
-                     >
-                        Upload!
-                     </button>
-                     &nbsp;
-                  </form>
+
                   {/* Map Video...*/}
                   {/* Return Video...*/}
                   <div style={{ width: "175px" }}>

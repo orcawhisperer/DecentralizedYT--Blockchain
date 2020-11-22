@@ -1,0 +1,31 @@
+// @import "../../styles/shared.scss";
+
+// $sidebar-hover-color: #ebebeb;
+.ui.menu.fixed.side-nav {
+   background-color: #f5f5f5;
+   // margin-top: $header-nav-height;
+   overflow-y: auto;
+   // padding-bottom: $header-nav-height;
+   width: 0% !important;
+   -webkit-transition: all 0.3s ease-in-out 0s;
+   -moz-transition: all 0.3s ease-in-out 0s;
+   transition: all 0.3s ease-in-out 0s;
+   .sidebar-item:hover {
+      // background: $sidebar-hover-color;
+   }
+
+   .subscription:hover {
+      background: #ebebeb;
+      cursor: pointer;
+   }
+}
+.ui.menu.fixed.side-nav.clicked {
+   width: 15% !important;
+   -webkit-transition: all 0.3s ease-in-out 0s;
+   -moz-transition: all 0.3s ease-in-out 0s;
+   transition: all 0.3s ease-in-out 0s;
+}
+
+.side-nav.ui.vertical.menu {
+   // width: $sidebar-left-width;
+}

@@ -1,23 +1,29 @@
 import React, { Component } from "react"
+import { Route, withRouter } from "react-router-dom"
+import { connect } from "react-redux"
 import DVideo from "../abis/DVideo.json"
 import Navbar from "./Navbar"
 import Main from "./Main"
 import Web3 from "web3"
-import "./App.css"
-import { Form } from "react-bootstrap"
+import "./App.scss"
+import { AppLayout } from "./imports/AppLayout"
+import { commonActions } from "../actions/commonActions"
+import { VideoUpload } from "./VideoUpload"
 
 //Declare IPFS
 const ipfsClient = require("ipfs-http-client")
 const ipfs = ipfsClient({
-   host: "ipfs.infura.io",
-   port: 5001,
-   protocol: "https",
+   host: process.env.REACT_APP_IPFS_HOST,
+   port: process.env.REACT_APP_IPFS_PORT,
+   protocol: process.env.REACT_APP_IPFS_PROTOCOL,
 }) // leaving out the arguments will default to these values
 
 class App extends Component {
    async componentWillMount() {
+      
       await this.loadWeb3()
       await this.loadBlockchainData()
+      //  this.props.initializeApp()
    }
 
    async loadWeb3() {
@@ -94,7 +100,8 @@ class App extends Component {
    }
 
    //Get video
-   captureFile = (event) => {
+   captureFile = (event, title) => {
+      console.log(title)
       event.preventDefault()
       const file = event.target.files[0]
       const reader = new window.FileReader()
@@ -102,6 +109,7 @@ class App extends Component {
 
       reader.onloadend = () => {
          this.setState({
+            title: title,
             buffer: Buffer(reader.result),
          })
          console.log("buffer", this.state.buffer)
@@ -109,7 +117,8 @@ class App extends Component {
    }
 
    //Upload video
-   uploadVideo = (title) => {
+   uploadVideo = () => {
+      
       console.log("Submitting to IPFS....")
 
       //Add to IPFS
@@ -124,15 +133,11 @@ class App extends Component {
 
          // Put on blockchain
          this.state.dvideo.methods
-            .uploadVideo(
-               result[0].hash,
-               title
-            )
-            .send({ from: this.state.account }).on(
-              'transactionHash', (hash) => {
-                this.setState({loading:false})
-              }
-            )
+            .uploadVideo(result[0].hash, this.state.title)
+            .send({ from: this.state.account })
+            .on("transactionHash", (hash) => {
+               this.setState({ loading: false })
+            })
       })
    }
 
@@ -157,24 +162,60 @@ class App extends Component {
 
    render() {
       return (
-         <div>
-            <Navbar account={this.state.account} />
-            {this.state.loading ? (
-               <div id="loader" className="text-center mt-5">
-                  <p>Loading...</p>
-               </div>
-            ) : (
-               <Main
-                  //states&functions
-                  captureFile={this.captureFile}
-                  uploadVideo={this.uploadVideo}
-                  currentHash={this.state.currentHash}
-                  currentTitle={this.state.currentTitle}
-               />
-            )}
-         </div>
+         <AppLayout account={this.state.account}>
+            <Route
+               exact
+               path="/"
+               component={() => (
+                  <Main
+                     captureFile={this.captureFile}
+                     uploadVideo={this.uploadVideo}
+                     currentHash={this.state.currentHash}
+                     currentTitle={this.state.currentTitle}
+                  />
+               )}
+            />
+            <Route
+               exact
+               path="/video/upload"
+               component={() => (
+                  <VideoUpload
+                     title={this.state.title}
+                     buffer={this.state.buffer}
+                     captureFile={this.captureFile}
+                     uploadVideo={this.uploadVideo}
+                  />
+               )}
+            />
+         </AppLayout>
+         // <div>
+         //    <Navbar account={this.state.account} />
+         //    {this.state.loading ? (
+         //       <div id="loader" className="text-center mt-5">
+         //          <p>Loading...</p>
+         //       </div>
+         //    ) : (
+         //       <Main
+         //          //states&functions
+         //          captureFile={this.captureFile}
+         //          uploadVideo={this.uploadVideo}
+         //          currentHash={this.state.currentHash}
+         //          currentTitle={this.state.currentTitle}
+         //       />
+         //    )}
+         // </div>
       )
    }
 }
 
-export default App
+const mapStateToProps = (state) => {
+   return {
+      common: state.common,
+   }
+}
+
+const actions = {
+   initializeApp: commonActions.initializeApp,
+}
+
+export default withRouter(connect(mapStateToProps, actions)(App))
