@@ -8,4 +8,4 @@
 
 [Checkout the site here]
 
-[Checkout the site here]: https://ipfs.fleek.co/ipfs/Qmbqyinf3WRT1Jxyc1jkkz6Nt23vdQWqRXh3ffN6emn891
+[Checkout the site here]: https://bitter-water-1036.on.fleek.co/
