@@ -21,7 +21,7 @@ class Main extends Component {
                   {this.props.videos.map((video) => {
                      if (video.hash !== this.props.currentHash) {
                         return (
-                           <Grid.Row>
+                           <Grid.Row key={video.hash}>
                               <Grid.Column
                                  style={{
                                     textAlign: "center",

@@ -17,6 +17,7 @@ class Home extends Component {
                   {this.props.videos.map((video) => {
                      return (
                         <Grid.Column
+                           key={video.hash}
                            style={{
                               textAlign: "center",
                               //   padding: "5%",
