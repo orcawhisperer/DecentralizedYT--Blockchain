@@ -4,7 +4,7 @@ import { commonActions } from "../actions/commonActions"
 
 const API_URL = process.env.REACT_APP_API_URL
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
-const web3 = createAlchemyWeb3(API_URL)
+const web3 = createAlchemyWeb3("https://eth-rinkeby.alchemyapi.io/v2/wTZV3COMJ4xZ_CaEY8ALqzXXpAhjjB4-")
 
 const ipfsClient = require("ipfs-http-client")
 
