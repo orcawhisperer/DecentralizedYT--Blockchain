@@ -1,58 +1,63 @@
 import React, { Component } from "react"
+import { withRouter } from "react-router-dom"
+import { Grid, Segment, Header } from "semantic-ui-react"
 
 class Main extends Component {
    render() {
       return (
-         <div className="container-fluid text-monospace">
-            <br></br>
-            &nbsp;
-            <br></br>
-            <div className="row">
-               <div className="col-md-10">
-                  <div
-                     className="embed-responsive embed-responsive-16by9"
-                     style={{ maxHeight: 400, width: 600 }}
-                  >
-                     {/* Video... */}
+         <Segment>
+            <Grid>
+               <Grid.Row>
+                  <Grid.Column width={12}>
                      <video
-                        src={`https://ipfs.infura.io/ipfs/${this.props.currentHash}`}
+                        width="100%"
+                        height="450"
+                        src={`https://ipfs.infura.io/ipfs/${this.props.currentHash}#t=0.6`}
                         controls
-                        autoPlay
                      />
-                  </div>
-               </div>
-               <h3>
-                  {
-                     /* Code... */
-                     this.props.currentTitle
-                  }
-               </h3>
-               <div
-                  className="col-md-2 overflow-auto text-center"
-                  style={{ maxHeight: "768px", minWidth: "175px" }}
-               >
-                  <h5>
-                     <b>Share Video</b>
-                  </h5>
+                     <Header>{this.props.currentTitle}</Header>
+                  </Grid.Column>
 
-                  {/* Map Video...*/}
-                  {/* Return Video...*/}
-                  <div style={{ width: "175px" }}>
-                     <div className="card-title bg-dark">
-                        <small className="text-white">
-                           <b>{/*Video title*/}</b>
-                        </small>
-                     </div>
-                     <div>
-                        {/* Change Video...*/}
-                        {/* Return Side Videos...*/}
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
+                  <Grid.Column width={4}>
+                     {this.props.videos.map((video) => {
+                        if (video.hash !== this.props.currentHash) {
+                           return (
+                              <Grid.Row>
+                                 <Grid.Column
+                                    style={{
+                                       textAlign: "center",
+                                       padding: "5%",
+                                    }}
+                                 >
+                                    <video
+                                       onClick={() => {
+                                          this.props.changeVideo(
+                                             video.hash,
+                                             video.title
+                                          )
+                                          this.props.history.push(
+                                             `/watch?video=${video.hash}`
+                                          )
+                                       }}
+                                       style={{
+                                          cursor: "pointer",
+                                          width: 300,
+                                          height: 200,
+                                          objectFit: "fill",
+                                       }}
+                                       src={`https://ipfs.infura.io/ipfs/${video.hash}#t=0.6`}
+                                    />
+                                 </Grid.Column>
+                              </Grid.Row>
+                           )
+                        }
+                     })}
+                  </Grid.Column>
+               </Grid.Row>
+            </Grid>
+         </Segment>
       )
    }
 }
 
-export default Main
+export default withRouter(Main)

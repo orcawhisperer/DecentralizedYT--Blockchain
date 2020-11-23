@@ -20,7 +20,6 @@ const ipfs = ipfsClient({
 
 class App extends Component {
    async componentWillMount() {
-      
       await this.loadWeb3()
       await this.loadBlockchainData()
       //  this.props.initializeApp()
@@ -66,7 +65,7 @@ class App extends Component {
 
          //Load videos, sort by newest
          for (let i = videoCount; i >= 1; i--) {
-            const video = dvideo.methods.videos(i).call()
+            const video = await dvideo.methods.videos(i).call()
             this.setState({
                videos: [...this.state.videos, video],
             })
@@ -118,7 +117,6 @@ class App extends Component {
 
    //Upload video
    uploadVideo = () => {
-      
       console.log("Submitting to IPFS....")
 
       //Add to IPFS
@@ -142,7 +140,12 @@ class App extends Component {
    }
 
    //Change Video
-   changeVideo = (hash, title) => {}
+   changeVideo = (hash, title) => {
+      this.setState({
+         currentHash: hash,
+         title: title,
+      })
+   }
 
    constructor(props) {
       super(props)
@@ -161,17 +164,23 @@ class App extends Component {
    }
 
    render() {
+      console.log(this.state.videos)
       return (
-         <AppLayout account={this.state.account}>
+         <AppLayout
+            account={this.state.account}
+            currentHash={this.state.currentHash}
+         >
             <Route
                exact
-               path="/"
+               path="/watch"
                component={() => (
                   <Main
                      captureFile={this.captureFile}
                      uploadVideo={this.uploadVideo}
                      currentHash={this.state.currentHash}
                      currentTitle={this.state.currentTitle}
+                     videos={this.state.videos}
+                     changeVideo={this.changeVideo}
                   />
                )}
             />
