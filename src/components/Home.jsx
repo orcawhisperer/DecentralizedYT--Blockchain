@@ -13,7 +13,7 @@ class Home extends Component {
          )
       } else {
          return (
-            <Grid celled="internally" stackable columns={3}>
+            <Grid celled="internally" stackable columns={4}>
                <Grid.Row>
                   {this.props.videos.map((video) => {
                      return (
