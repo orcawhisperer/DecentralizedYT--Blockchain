@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { Route, withRouter } from "react-router-dom"
 import { connect } from "react-redux"
-import DVideo from "../abis/DVideo.json"
 import Main from "./Main"
 import "./App.scss"
 import { AppLayout } from "./imports/AppLayout"
@@ -10,29 +9,20 @@ import { VideoUpload } from "./VideoUpload"
 import Home from "./Home"
 
 class App extends Component {
-   componentWillMount() {
+   componentDidMount() {
       this.props.initApp()
       this.props.loadData()
    }
 
    //Change Video
    changeVideo = (hash, title) => {
-      this.setState({
-         currentHash: hash,
-         currentTitle: title,
-      })
+      this.props.setData("currentHash", hash)
+      this.props.setData("currentTitle", title)
    }
 
    constructor(props) {
       super(props)
       this.state = {
-         buffer: null,
-         account: "",
-         dvideo: null,
-         videos: [],
-         loading: true,
-         currentHash: null,
-         currentTitle: null,
          //set states
       }
 
@@ -42,18 +32,18 @@ class App extends Component {
    render() {
       return (
          <AppLayout
-            account={this.state.account}
-            currentHash={this.state.currentHash}
+            account={this.props.common.account}
+            currentHash={this.props.common.currentHash}
          >
             <Route
                exact
                path="/"
                component={() => (
                   <Home
-                     loading={this.state.loading}
-                     currentHash={this.state.currentHash}
-                     currentTitle={this.state.currentTitle}
-                     videos={this.state.videos}
+                     loading={this.props.common.loading}
+                     currentHash={this.props.common.currentHash}
+                     currentTitle={this.props.common.currentTitle}
+                     videos={this.props.common.videos}
                      changeVideo={this.changeVideo}
                   />
                )}
@@ -64,9 +54,9 @@ class App extends Component {
                path="/video"
                component={() => (
                   <Main
-                     currentHash={this.state.currentHash}
-                     currentTitle={this.state.currentTitle}
-                     videos={this.state.videos}
+                     currentHash={this.props.common.currentHash}
+                     currentTitle={this.props.common.currentTitle}
+                     videos={this.props.common.videos}
                      changeVideo={this.changeVideo}
                   />
                )}
@@ -74,14 +64,7 @@ class App extends Component {
             <Route
                exact
                path="/video/upload"
-               component={() => (
-                  <VideoUpload
-                     title={this.state.title}
-                     buffer={this.state.buffer}
-                     captureFile={this.captureFile}
-                     uploadVideo={this.uploadVideo}
-                  />
-               )}
+               component={() => <VideoUpload />}
             />
          </AppLayout>
       )
@@ -95,6 +78,7 @@ const mapStateToProps = (state) => {
 }
 
 const actions = {
+   setData: commonActions.setData,
    initApp: commonActions.initializeApp,
    loadData: commonActions.loadBlockchainData,
 }

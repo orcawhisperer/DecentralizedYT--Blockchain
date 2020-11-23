@@ -27,11 +27,9 @@ const initializeApp = () => {
       initApp
          .loadWeb3()
          .then((data) => {
-            console.log(data)
             dispatch(setData("WEB3_INITIALIZED", true))
          })
          .catch((reason) => {
-            console.log(reason)
             dispatch(setData("WEB3_INITIALIZED", false))
          })
    }

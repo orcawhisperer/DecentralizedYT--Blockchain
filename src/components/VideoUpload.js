@@ -10,8 +10,6 @@ export const VideoUpload = (props) => {
    const appState = useSelector((state) => state.common)
    const dispatch = useDispatch()
 
-   console.log(appState.dvideo)
-
    return (
       <Segment style={{ width: "50%" }}>
          <Form>
@@ -81,7 +79,7 @@ export const VideoUpload = (props) => {
             >
                Submit
             </Button>
-            <Loader active={isUploading}>upload...</Loader>
+            <Loader active={isUploading}>uploading...</Loader>
          </Form>
       </Segment>
    )

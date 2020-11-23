@@ -53,7 +53,7 @@ const loadBlockchainData = async () => {
       //Load videos, sort by newest
       let videos = []
       for (let i = videoCount; i >= 1; i--) {
-         const video = dvideo.methods.videos(i).call()
+         const video = await dvideo.methods.videos(i).call()
          videos = [...videos, video]
       }
 

@@ -4,7 +4,6 @@ import { Grid, Loader, Header } from "semantic-ui-react"
 
 class Home extends Component {
    render() {
-      console.log(this.props.loading)
       if (this.props.loading) {
          return (
             <Loader size="big" active={this.props.loading}>
