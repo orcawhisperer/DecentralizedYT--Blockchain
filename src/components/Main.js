@@ -36,7 +36,7 @@ class Main extends Component {
                                              video.title
                                           )
                                           this.props.history.push(
-                                             `/watch?video=${video.hash}`
+                                             `/video?hash=${video.hash}`
                                           )
                                        }}
                                        style={{

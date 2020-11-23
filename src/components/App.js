@@ -172,7 +172,7 @@ class App extends Component {
          >
             <Route
                exact
-               path="/watch"
+               path="/video"
                component={() => (
                   <Main
                      captureFile={this.captureFile}
@@ -197,22 +197,6 @@ class App extends Component {
                )}
             />
          </AppLayout>
-         // <div>
-         //    <Navbar account={this.state.account} />
-         //    {this.state.loading ? (
-         //       <div id="loader" className="text-center mt-5">
-         //          <p>Loading...</p>
-         //       </div>
-         //    ) : (
-         //       <Main
-         //          //states&functions
-         //          captureFile={this.captureFile}
-         //          uploadVideo={this.uploadVideo}
-         //          currentHash={this.state.currentHash}
-         //          currentTitle={this.state.currentTitle}
-         //       />
-         //    )}
-         // </div>
       )
    }
 }
