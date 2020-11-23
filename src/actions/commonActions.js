@@ -40,7 +40,14 @@ const initializeApp = () => {
 
 const loadBlockchainData = () => {
    return (dispatch) => {
-      initApp.loadBlockchainData()
+      initApp.loadBlockchainData().then((data) => {
+         dispatch(setData("account", data.account))
+         dispatch(setData("dvideo", data.dvideo))
+         dispatch(setData("videos", data.videos))
+         dispatch(setData("currentTitle", data.currentTitle))
+         dispatch(setData("currentHash", data.currentTitle))
+         dispatch(setData("loading", false))
+      })
    }
    // initApp.loadBlockchainData()
 }
