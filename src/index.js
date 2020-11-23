@@ -3,17 +3,17 @@ import ReactDOM from "react-dom"
 import App from "./components/App"
 import "semantic-ui-css/semantic.min.css"
 import { Provider } from "react-redux"
-import { BrowserRouter } from "react-router-dom"
-import { PersistGate } from "redux-persist/integration/react"
-import { presistor, store } from "./helpers/store"
+import IpfsRouter from "ipfs-react-router"
+// import { PersistGate } from "redux-persist/integration/react"
+import { store } from "./helpers/store"
 import * as serviceWorker from "./serviceWorker"
 import "./index.css"
 
 ReactDOM.render(
    <Provider store={store}>
-      <BrowserRouter>
+      <IpfsRouter>
          <App />
-      </BrowserRouter>
+      </IpfsRouter>
    </Provider>,
    document.getElementById("root")
 )
