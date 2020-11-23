@@ -79,7 +79,7 @@ class HeaderNav extends React.Component {
                      ) : (
                         <Icon
                            className="header-icon"
-                           name="Sign up"
+                           name="sign in"
                            size="large"
                            onClick={() => {
                               //   this.props.setInitalState()

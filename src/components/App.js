@@ -20,10 +20,12 @@ const ipfs = ipfsClient({
 }) // leaving out the arguments will default to these values
 
 class App extends Component {
-   async componentWillMount() {
-      await this.loadWeb3()
-      await this.loadBlockchainData()
-      //  this.props.initializeApp()
+   componentWillMount() {
+      // await this.loadWeb3()
+      // await this.loadBlockchainData()
+      this.props.initApp()
+      this.props.loadData()
+      // this.props.loadWeb3()
    }
 
    async loadWeb3() {
@@ -220,7 +222,8 @@ const mapStateToProps = (state) => {
 }
 
 const actions = {
-   initializeApp: commonActions.initializeApp,
+   initApp: commonActions.initializeApp,
+   loadData: commonActions.loadBlockchainData,
 }
 
 export default withRouter(connect(mapStateToProps, actions)(App))

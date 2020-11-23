@@ -24,9 +24,25 @@ const appendData = (key, value) => {
 
 const initializeApp = () => {
    return (dispatch) => {
-      initApp.loadWeb3()
+      initApp
+         .loadWeb3()
+         .then((data) => {
+            console.log(data)
+            dispatch(setData("WEB3_INITIALIZED", true))
+         })
+         .catch((reason) => {
+            console.log(reason)
+            dispatch(setData("WEB3_INITIALIZED", false))
+         })
+   }
+   // initApp.loadBlockchainData()
+}
+
+const loadBlockchainData = () => {
+   return (dispatch) => {
       initApp.loadBlockchainData()
    }
+   // initApp.loadBlockchainData()
 }
 
 const updateApp = (data) => {
@@ -42,5 +58,6 @@ export const commonActions = {
    setData,
    appendData,
    initializeApp,
+   loadBlockchainData,
    updateApp,
 }
