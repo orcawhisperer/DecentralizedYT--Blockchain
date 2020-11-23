@@ -9,6 +9,7 @@ import "./App.scss"
 import { AppLayout } from "./imports/AppLayout"
 import { commonActions } from "../actions/commonActions"
 import { VideoUpload } from "./VideoUpload"
+import Home from "./Home"
 
 //Declare IPFS
 const ipfsClient = require("ipfs-http-client")
@@ -143,7 +144,7 @@ class App extends Component {
    changeVideo = (hash, title) => {
       this.setState({
          currentHash: hash,
-         title: title,
+         currentTitle: title,
       })
    }
 
@@ -164,7 +165,6 @@ class App extends Component {
    }
 
    render() {
-      console.log(this.state.videos)
       return (
          <AppLayout
             account={this.state.account}
@@ -172,11 +172,23 @@ class App extends Component {
          >
             <Route
                exact
+               path="/"
+               component={() => (
+                  <Home
+                     loading={this.state.loading}
+                     currentHash={this.state.currentHash}
+                     currentTitle={this.state.currentTitle}
+                     videos={this.state.videos}
+                     changeVideo={this.changeVideo}
+                  />
+               )}
+            />
+
+            <Route
+               exact
                path="/video"
                component={() => (
                   <Main
-                     captureFile={this.captureFile}
-                     uploadVideo={this.uploadVideo}
                      currentHash={this.state.currentHash}
                      currentTitle={this.state.currentTitle}
                      videos={this.state.videos}
