@@ -20,6 +20,7 @@ class Main extends Component {
                            height="450"
                            src={`https://ipfs.infura.io/ipfs/${this.props.currentHash}#t=0.6`}
                            controls
+                           autoPlay="true"
                         />
                         <Header>{this.props.currentTitle}</Header>
                      </Grid.Column>

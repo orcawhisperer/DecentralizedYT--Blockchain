@@ -49,7 +49,7 @@ export const AppLayout = () => {
 
    const isWeb3Available = useSelector((state) => state.video.isWeb3Available)
 
-   const isSideBarOpen = useSelector((state) => state.common.isSideBarOpen)
+   // const isSideBarOpen = useSelector((state) => state.common.isSideBarOpen)
 
    return (
       <div className={classes.root}>
@@ -58,7 +58,7 @@ export const AppLayout = () => {
          <SideNav />
          <main
             className={clsx(classes.content, {
-               [classes.contentShift]: isSideBarOpen,
+               // [classes.contentShift]: isSideBarOpen,
             })}
          >
             <div className={classes.drawerHeader} />
