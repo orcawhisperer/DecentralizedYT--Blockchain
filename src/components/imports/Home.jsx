@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import { Grid, Header, Loader } from "semantic-ui-react"
 import { connect } from "react-redux"
-import { videoActions } from "../actions/videoActions"
+import { videoActions } from "../../actions/videoActions"
 
 class Home extends Component {
    render() {

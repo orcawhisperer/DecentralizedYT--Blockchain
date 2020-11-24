@@ -1,8 +1,8 @@
 import React, { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Form, Button, Segment, Loader } from "semantic-ui-react"
-import { videoActions } from "../actions/videoActions"
-import { initApp } from "../services/init"
+import { videoActions } from "../../actions/videoActions"
+import { initApp } from "../../services/init"
 
 export const VideoUpload = (props) => {
    const [videoTitle, setVideoTitle] = useState(props.title)

@@ -6,10 +6,10 @@ import CssBaseline from "@material-ui/core/CssBaseline"
 import { Header } from "./HeaderNav/Header"
 import { SideNav } from "./SideBar/SideNav"
 import { useSelector } from "react-redux"
-import { VideoUpload } from "../VideoUpload"
+import { VideoUpload } from "./VideoUpload"
 import NotFound from "./NotFound"
-import Home from "../Home"
-import Main from "../Main"
+import Home from "./Home"
+import Main from "./Main"
 
 const drawerWidth = 240
 

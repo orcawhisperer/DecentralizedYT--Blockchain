@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import { withRouter } from "react-router-dom"
 import { Grid, Header, Loader } from "semantic-ui-react"
-import { videoActions } from "../actions/videoActions"
+import { videoActions } from "../../actions/videoActions"
 
 class Main extends Component {
    render() {
@@ -16,6 +16,7 @@ class Main extends Component {
                   <Grid.Row>
                      <Grid.Column width={12}>
                         <video
+                           style={{objectFit:"cover"}}
                            width="100%"
                            height="450"
                            src={`https://ipfs.infura.io/ipfs/${this.props.currentHash}#t=0.6`}
