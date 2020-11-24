@@ -1,13 +1,13 @@
 import React, { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Form, Button, Segment, Loader } from "semantic-ui-react"
-import { commonActions } from "../actions/commonActions"
+import { videoActions } from "../actions/videoActions"
 import { initApp } from "../services/init"
 
 export const VideoUpload = (props) => {
    const [videoTitle, setVideoTitle] = useState(props.title)
    const [isUploading, setIsUploading] = useState(false)
-   const appState = useSelector((state) => state.common)
+   const appState = useSelector((state) => state.video)
    const dispatch = useDispatch()
 
    return (
@@ -37,22 +37,16 @@ export const VideoUpload = (props) => {
 
                      reader.onloadend = () => {
                         dispatch(
-                           commonActions.setData("currentTitle", videoTitle)
+                           videoActions.setData("currentTitle", videoTitle)
                         )
                         dispatch(
-                           commonActions.setData(
-                              "buffer",
-                              Buffer(reader.result)
-                           )
+                           videoActions.setData("buffer", Buffer(reader.result))
                         )
                      }
                   }}
-                  //   required
                />
             </Form.Field>
-            {/* <Form.Field>
-            <Checkbox label="I agree to the Terms and Conditions" />
-         </Form.Field> */}
+
             <Button
                type="submit"
                onClick={() => {

@@ -1,0 +1,20 @@
+<svg width="3200" height="1348" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>background</title>
+  <rect fill="none" id="canvas_background" height="1350" width="3202" y="-1" x="-1"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <g stroke="null" id="svg_1">
+   <polygon stroke="null" id="svg_2" points="369.63909912109375,39.643882751464844 29.86370849609375,672.1235122680664 369.63909912109375,498.8907241821289 " fill="#8A92B2"/>
+   <polygon stroke="null" id="svg_3" points="369.63909912109375,498.8907241821289 29.86370849609375,672.1235122680664 369.63909912109375,897.4744033813477 " fill="#62688F"/>
+   <polygon stroke="null" id="svg_4" points="709.4774780273438,672.1235122680664 369.63909912109375,39.643882751464844 369.63909912109375,498.8907241821289 " fill="#62688F"/>
+   <polygon stroke="null" id="svg_5" points="369.63909912109375,895.9391250610352 709.4774780273438,670.5882949829102 369.63909912109375,497.35550689697266 " fill="#454A75"/>
+   <polygon stroke="null" id="svg_6" points="29.86370849609375,744.4391250610352 369.63909912109375,1281.5807266235352 369.63909912109375,969.6487197875977 " fill="#8A92B2"/>
+   <polygon stroke="null" id="svg_7" points="369.63909912109375,969.6487197875977 369.63909912109375,1281.5807266235352 709.6664428710938,744.4391250610352 " fill="#62688F"/>
+  </g>
+  <text stroke="null" transform="matrix(-71.07806459616438,0,0,32.71844873202099,75652.6617726618,-27146.57739515164) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="24" id="svg_10" y="861.72843" x="1039.13774" fill-opacity="null" stroke-opacity="null" stroke-width="0" fill="#000000"/>
+  <text style="cursor: move;" font-style="normal" stroke="null" transform="matrix(5.749436603472296,0,0,10.279054123292939,-3965.547116634914,-6041.395867047649) " xml:space="preserve" text-anchor="start" font-family="Helvetica, Arial, sans-serif" font-size="72" id="svg_12" y="678.25459" x="839.31606" stroke-opacity="null" stroke-width="0" fill="#454a75">DecentralYT</text>
+ </g>
+</svg>

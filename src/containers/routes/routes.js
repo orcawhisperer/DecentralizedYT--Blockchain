@@ -7,7 +7,7 @@ export const routes = {
       home: "/home",
    },
    videos: {
-       trending:"/video/trending",
-       upload: "/video/upload"
-   }
+      trending: "/video/trending",
+      upload: "/video/upload",
+   },
 }

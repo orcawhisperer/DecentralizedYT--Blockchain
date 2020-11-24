@@ -1,9 +1,7 @@
 import DVideo from "../abis/DVideo.json"
 import { handleResponse } from "../middleware/HandleResponse/handleResponse"
-import { commonActions } from "../actions/commonActions"
-
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
-const web3 = createAlchemyWeb3('https://eth-rinkeby.alchemyapi.io/v2/wTZV3COMJ4xZ_CaEY8ALqzXXpAhjjB4-')
+const web3 = createAlchemyWeb3(process.env.REACT_APP_API_URL)
 
 const ipfsClient = require("ipfs-http-client")
 
@@ -34,9 +32,6 @@ const loadBlockchainData = async () => {
    const accounts = await web3.eth.getAccounts()
    // const accounts = await handleResponse(accountsResponse)
 
-   // Add first account the the state
-   commonActions.setData("account", accounts[0])
-
    //Get network ID
    const networkId = await web3.eth.net.getId()
    //Get network data
@@ -44,10 +39,8 @@ const loadBlockchainData = async () => {
    //Check if net data exists, then
    if (networkData) {
       const dvideo = web3.eth.Contract(DVideo.abi, networkData.address)
-      commonActions.setData("dvideo", dvideo)
 
       const videoCount = await dvideo.methods.videoCount().call()
-      commonActions.setData("videoCount", videoCount)
 
       //Load videos, sort by newest
       let videos = []
@@ -69,19 +62,6 @@ const loadBlockchainData = async () => {
    } else {
       window.alert("DVideo contract not deployed to detected network.")
    }
-
-   //Assign dvideo contract to a variable
-   //Add dvideo to the state
-
-   //Check videoAmounts
-   //Add videAmounts to the state
-
-   //Iterate throught videos and add them to the state (by newest)
-
-   //Set latest video and it's title to view as default
-   //Set loading state to false
-
-   //If network data doesn't exisits, log error
 }
 
 export const initApp = {
