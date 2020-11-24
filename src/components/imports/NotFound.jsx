@@ -15,8 +15,9 @@ const useStyles = makeStyles((theme) => ({
    },
 }))
 
-export default function NonFound() {
+export default function NonFound(props) {
    const classes = useStyles()
+   console.log(props.isWeb3Available)
    return (
       <React.Fragment>
          <CssBaseline />
@@ -26,7 +27,7 @@ export default function NonFound() {
             gutterBottom
             className={classes.pageNotFoundText}
          >
-            404
+            {props.msg}
          </Typography>
          <Container maxWidth="sm">
             <img
@@ -35,6 +36,15 @@ export default function NonFound() {
                alt="page-not-found"
             />
          </Container>
+         {!props.isWeb3Available ? (
+            <Typography variant="h4" className={classes.pageNotFoundText}>
+               Install from{" "}
+               <a href="https://metamask.io" target="_blank">
+                  <u>here</u>
+               </a>{" "}
+               and connect to rinkeby test network.
+            </Typography>
+         ) : null}
       </React.Fragment>
    )
 }

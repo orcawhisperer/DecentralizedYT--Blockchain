@@ -21,17 +21,24 @@ const initializeApp = () => {
       initApp
          .loadWeb3()
          .then((data) => {
-            dispatch(setData("WEB3_INITIALIZED", true))
+            if (data.error) {
+               dispatch(setData("isWeb3Available", false))
+            } else {
+               dispatch(setData("isWeb3Available", true))
+               dispatch(loadBlockchainData())
+            }
          })
-         .catch((reason) => {
-            dispatch(setData("WEB3_INITIALIZED", false))
+         .catch((err) => {
+            dispatch(setData("isWeb3Available", false))
          })
    }
    // initApp.loadBlockchainData()
 }
 
 const loadBlockchainData = () => {
+   console.log("load blockchain called...")
    return (dispatch) => {
+      dispatch(setData("loading", true))
       initApp.loadBlockchainData().then((data) => {
          dispatch(setData("account", data.account))
          dispatch(setData("dvideo", data.dvideo))

@@ -8,7 +8,6 @@ import { videoActions } from "../actions/videoActions"
 class App extends Component {
    componentDidMount() {
       this.props.initApp()
-      this.props.loadData()
    }
 
    constructor(props) {
@@ -16,7 +15,6 @@ class App extends Component {
       this.state = {
          //set states
       }
-
       //Bind functions
    }
 
@@ -27,7 +25,6 @@ class App extends Component {
 
 const actions = {
    initApp: videoActions.initializeApp,
-   loadData: videoActions.loadBlockchainData,
 }
 
 export default withRouter(connect(null, actions)(App))
