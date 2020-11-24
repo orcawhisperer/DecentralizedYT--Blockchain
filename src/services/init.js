@@ -1,5 +1,4 @@
 import DVideo from "../abis/DVideo.json"
-import { handleResponse } from "../middleware/HandleResponse/handleResponse"
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
 const web3 = createAlchemyWeb3(process.env.REACT_APP_API_URL)
 
@@ -13,16 +12,13 @@ const getIPFSClient = () => {
    })
 }
 
-const loadWeb3 = () => {
+const loadWeb3 = async () => {
    if (window.ethereum) {
-      return window.ethereum
-         .enable()
-         .then(handleResponse)
-         .then((accounts) => {
-            // Metamask is ready to go!
-            return accounts
-         })
+      const accounts = await window.ethereum.enable()
+      return accounts
    } else {
+      const err = { error: "Web3 not available" }
+      return err
       // The user doesn't have Metamask installed.
    }
 }

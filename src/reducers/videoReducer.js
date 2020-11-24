@@ -4,9 +4,10 @@ const initilization = {
    account: "",
    dvideo: null,
    videos: [],
-   loading: true,
+   loading: false,
    currentHash: null,
    currentTitle: null,
+   isWeb3Available: true,
 }
 export default function videoReducer(state = initilization, action) {
    switch (action.type) {

@@ -7,7 +7,7 @@ import { Header } from "./HeaderNav/Header"
 import { SideNav } from "./SideBar/SideNav"
 import { useSelector } from "react-redux"
 import { VideoUpload } from "../VideoUpload"
-import NotFound  from "./NotFound"
+import NotFound from "./NotFound"
 import Home from "../Home"
 import Main from "../Main"
 
@@ -47,6 +47,8 @@ export const AppLayout = () => {
    const classes = useStyles()
    // const theme = useTheme()
 
+   const isWeb3Available = useSelector((state) => state.video.isWeb3Available)
+
    const isSideBarOpen = useSelector((state) => state.common.isSideBarOpen)
 
    return (
@@ -60,17 +62,34 @@ export const AppLayout = () => {
             })}
          >
             <div className={classes.drawerHeader} />
-            <Switch>
-               <Route exact path="/" component={() => <Home />} />
+            {isWeb3Available ? (
+               <Switch>
+                  <Route exact path="/" component={() => <Home />} />
 
-               <Route exact path="/video" component={() => <Main />} />
+                  <Route exact path="/video" component={() => <Main />} />
+                  <Route
+                     exact
+                     path="/video/upload"
+                     component={() => <VideoUpload />}
+                  />
+                  <Route
+                     exact
+                     component={() => (
+                        <NotFound msg="404" isWeb3Available={isWeb3Available} />
+                     )}
+                  />
+               </Switch>
+            ) : (
                <Route
                   exact
-                  path="/video/upload"
-                  component={() => <VideoUpload />}
+                  component={() => (
+                     <NotFound
+                        msg="MetaMask Wallet Requried"
+                        isWeb3Available={isWeb3Available}
+                     />
+                  )}
                />
-               <Route component={NotFound} />
-            </Switch>
+            )}
          </main>
       </div>
    )
