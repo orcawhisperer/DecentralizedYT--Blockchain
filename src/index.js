@@ -3,16 +3,16 @@ import ReactDOM from "react-dom"
 import App from "./components/App"
 import "semantic-ui-css/semantic.min.css"
 import { Provider } from "react-redux"
-import IpfsRouter from "ipfs-react-router"
+import { HashRouter } from "react-router-dom"
 import { store } from "./helpers/store"
 import * as serviceWorker from "./serviceWorker"
 import "./index.css"
 
 ReactDOM.render(
    <Provider store={store}>
-      <IpfsRouter>
+      <HashRouter>
          <App />
-      </IpfsRouter>
+      </HashRouter>
    </Provider>,
    document.getElementById("root")
 )

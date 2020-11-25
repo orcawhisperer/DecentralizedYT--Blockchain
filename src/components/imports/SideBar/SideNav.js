@@ -1,6 +1,6 @@
 import React from "react"
 import { Link } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import Drawer from "@material-ui/core/Drawer"
 import List from "@material-ui/core/List"
@@ -11,6 +11,7 @@ import ListItemText from "@material-ui/core/ListItemText"
 import HomeIcon from "@material-ui/icons/Home"
 import TrendingIcon from "@material-ui/icons/Whatshot"
 import UploadIcon from "@material-ui/icons/Publish"
+import { commonActions } from "../../../actions/commonActions"
 
 const drawerWidth = 240
 
@@ -32,6 +33,7 @@ export const SideNav = () => {
    const classes = useStyles()
    //    const theme = useTheme()
    const isSideBarOpen = useSelector((state) => state.common.isSideBarOpen)
+   const dispatch = useDispatch()
 
    return (
       <Drawer
@@ -45,7 +47,13 @@ export const SideNav = () => {
       >
          <Divider />
          <List>
-            <Link to="/" className={classes.sideNavLink}>
+            <Link
+               to="/"
+               className={classes.sideNavLink}
+               onClick={() => {
+                  dispatch(commonActions.toggleSideBar())
+               }}
+            >
                <ListItem button key="home">
                   <ListItemIcon>
                      <HomeIcon />
@@ -53,7 +61,13 @@ export const SideNav = () => {
                   <ListItemText primary="Home" />
                </ListItem>
             </Link>
-            <Link to="/trending" className={classes.sideNavLink}>
+            <Link
+               to="/trending"
+               className={classes.sideNavLink}
+               onClick={() => {
+                  dispatch(commonActions.toggleSideBar())
+               }}
+            >
                <ListItem button key="trending">
                   <ListItemIcon>
                      <TrendingIcon />
@@ -61,7 +75,13 @@ export const SideNav = () => {
                   <ListItemText primary="Trending" />
                </ListItem>
             </Link>
-            <Link to="/video/upload" className={classes.sideNavLink}>
+            <Link
+               to="/video/upload"
+               className={classes.sideNavLink}
+               onClick={() => {
+                  dispatch(commonActions.toggleSideBar())
+               }}
+            >
                <ListItem button key="upload">
                   <ListItemIcon>
                      <UploadIcon />
