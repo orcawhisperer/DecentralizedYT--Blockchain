@@ -1,14 +1,16 @@
 import DVideo from "../abis/DVideo.json"
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
-const web3 = createAlchemyWeb3("https://eth-rinkeby.alchemyapi.io/v2/wTZV3COMJ4xZ_CaEY8ALqzXXpAhjjB4-")
+const web3 = createAlchemyWeb3(
+   "https://eth-rinkeby.alchemyapi.io/v2/wTZV3COMJ4xZ_CaEY8ALqzXXpAhjjB4-"
+)
 
 const ipfsClient = require("ipfs-http-client")
 
 const getIPFSClient = () => {
    return ipfsClient({
-      host: process.env.REACT_APP_IPFS_HOST,
-      port: process.env.REACT_APP_IPFS_PORT,
-      protocol: process.env.REACT_APP_IPFS_PROTOCOL,
+      host: "ipfs.infura.io", //process.env.REACT_APP_IPFS_HOST,
+      port: "5001", //process.env.REACT_APP_IPFS_PORT,
+      protocol: "https", //process.env.REACT_APP_IPFS_PROTOCOL,
    })
 }
 
