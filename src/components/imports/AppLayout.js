@@ -1,15 +1,16 @@
 import React from "react"
 import clsx from "clsx"
-import { Route, Switch } from "react-router-dom"
+import { Route, Switch, withRouter } from "react-router-dom"
 import { makeStyles, useTheme } from "@material-ui/core/styles"
 import CssBaseline from "@material-ui/core/CssBaseline"
-import { Header } from "./HeaderNav/Header"
+import Header from "./HeaderNav/Header"
 import { SideNav } from "./SideBar/SideNav"
 import { useSelector } from "react-redux"
-import { VideoUpload } from "./VideoUpload"
+import VideoUpload from "./VideoUpload"
 import NotFound from "./NotFound"
 import Home from "./Home"
 import Main from "./Main"
+import SignIn from "./SignIn/SignIn"
 
 const drawerWidth = 240
 
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
    },
 }))
 
-export const AppLayout = () => {
+const AppLayout = () => {
    const classes = useStyles()
    // const theme = useTheme()
 
@@ -65,7 +66,7 @@ export const AppLayout = () => {
             {isWeb3Available ? (
                <Switch>
                   <Route exact path="/" component={() => <Home />} />
-
+                  <Route exact path="/signin" component={() => <SignIn />} />
                   <Route exact path="/video" component={() => <Main />} />
                   <Route
                      exact
@@ -94,3 +95,5 @@ export const AppLayout = () => {
       </div>
    )
 }
+
+export default withRouter(AppLayout)

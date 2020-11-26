@@ -1,4 +1,4 @@
-import { initApp } from "../services/init"
+import { videoServiceActions } from "../services/videoService"
 
 const setData = (key, value) => {
    return {
@@ -16,31 +16,12 @@ const appendData = (key, value) => {
    }
 }
 
-const initializeApp = () => {
-   return (dispatch) => {
-      initApp
-         .loadWeb3()
-         .then((data) => {
-            if (data.error) {
-               dispatch(setData("isWeb3Available", false))
-            } else {
-               dispatch(setData("isWeb3Available", true))
-               dispatch(loadBlockchainData())
-            }
-         })
-         .catch((err) => {
-            dispatch(setData("isWeb3Available", false))
-         })
-   }
-   // initApp.loadBlockchainData()
-}
-
 const loadBlockchainData = () => {
    console.log("load blockchain called...")
    return (dispatch) => {
       dispatch(setData("loading", true))
-      initApp.loadBlockchainData().then((data) => {
-         dispatch(setData("account", data.account))
+      videoServiceActions.loadBlockchainData().then((data) => {
+         // dispatch(setData("account", data.account))
          dispatch(setData("dvideo", data.dvideo))
          dispatch(setData("videos", data.videos))
          dispatch(setData("currentTitle", data.currentTitle))
@@ -71,7 +52,6 @@ const changeVideo = (hash, title) => {
 export const videoActions = {
    setData,
    appendData,
-   initializeApp,
    loadBlockchainData,
    updateApp,
    changeVideo,

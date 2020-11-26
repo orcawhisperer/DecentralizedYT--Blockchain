@@ -1,34 +1,8 @@
 import DVideo from "../abis/DVideo.json"
-const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
-const web3 = createAlchemyWeb3(
-   "https://eth-rinkeby.alchemyapi.io/v2/wTZV3COMJ4xZ_CaEY8ALqzXXpAhjjB4-"
-)
-
-const ipfsClient = require("ipfs-http-client")
-
-const getIPFSClient = () => {
-   return ipfsClient({
-      host: "ipfs.infura.io", //process.env.REACT_APP_IPFS_HOST,
-      port: "5001", //process.env.REACT_APP_IPFS_PORT,
-      protocol: "https", //process.env.REACT_APP_IPFS_PROTOCOL,
-   })
-}
-
-const loadWeb3 = async () => {
-   if (window.ethereum) {
-      const accounts = await window.ethereum.enable()
-      return accounts
-   } else {
-      const err = { error: "Web3 not available" }
-      return err
-      // The user doesn't have Metamask installed.
-   }
-}
+import { appHelperFunctions } from "../helpers/appHelper"
 
 const loadBlockchainData = async () => {
-   //Load accounts
-   const accounts = await web3.eth.getAccounts()
-   // const accounts = await handleResponse(accountsResponse)
+   const web3 = appHelperFunctions.getWeb3Client()
 
    //Get network ID
    const networkId = await web3.eth.net.getId()
@@ -52,18 +26,16 @@ const loadBlockchainData = async () => {
 
       return {
          dvideo: dvideo,
-         account: accounts[0],
          videos: videos,
          currentTitle: latest.title,
          currentHash: latest.hash,
       }
    } else {
       window.alert("DVideo contract not deployed to detected network.")
+      return { error: "DVideo contract not deployed to detected network." }
    }
 }
 
-export const initApp = {
-   loadWeb3,
+export const videoServiceActions = {
    loadBlockchainData,
-   getIPFSClient,
 }

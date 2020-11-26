@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import Identicon from "identicon.js"
-import { Link } from "react-router-dom"
+import { Link, withRouter } from "react-router-dom"
 import clsx from "clsx"
 import { makeStyles, useTheme, fade } from "@material-ui/core/styles"
 import { useDispatch, useSelector } from "react-redux"
@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
       color: `black`,
    },
    appBarLogo: {
-      width: 125,
-      height: 40,
+      width: 100,
+      height: 30,
       cursor: "pointer",
    },
    search: {
@@ -53,6 +53,18 @@ const useStyles = makeStyles((theme) => ({
       alignItems: "center",
       justifyContent: "center",
       color: `grey`,
+   },
+   signIn: {
+      // padding: theme.spacing(0, 2),
+      // position: "relative",
+      // backgroundColor: "#f8f8f8",
+      // display: "flex",
+      // alignItems: "center",
+      // justifyContent: "center",
+      color: `grey`,
+   },
+   signInButton: {
+      border: `2px solid grey`,
    },
    inputRoot: {
       color: "grey",
@@ -77,11 +89,11 @@ const useStyles = makeStyles((theme) => ({
    },
 }))
 
-export const Header = () => {
+const Header = (props) => {
    const classes = useStyles()
    //    const theme = useTheme()
    const dispatch = useDispatch()
-   const account = useSelector((state) => state.video.account)
+   const account = useSelector((state) => state.user.account)
    const menuId = "primary-search-account-menu"
 
    const [anchorEl, setAnchorEl] = React.useState(null)
@@ -100,20 +112,22 @@ export const Header = () => {
       console.log(account)
    }, [account])
 
-   const renderMenu = (
-      <Menu
-         anchorEl={anchorEl}
-         anchorOrigin={{ vertical: "top", horizontal: "right" }}
-         id={menuId}
-         keepMounted
-         transformOrigin={{ vertical: "top", horizontal: "right" }}
-         open={isMenuOpen}
-         onClose={handleMenuClose}
-      >
-         <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-         <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      </Menu>
-   )
+   const renderMenu = () => {
+      return (
+         <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+            id={menuId}
+            keepMounted
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
+            open={isMenuOpen}
+            onClose={handleMenuClose}
+         >
+            <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+            <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+         </Menu>
+      )
+   }
 
    return (
       <AppBar position="fixed" className={clsx(classes.appBar)}>
@@ -154,15 +168,16 @@ export const Header = () => {
                />
             </div>
             <div className={classes.sectionDesktop}>
-               <IconButton
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-               >
-                  {account ? (
+               {account ? (
+                  <IconButton
+                     edge="end"
+                     aria-label="account of current user"
+                     aria-controls={menuId}
+                     aria-haspopup="true"
+                     className={classes.signIn}
+                     onClick={handleProfileMenuOpen}
+                     color="inherit"
+                  >
                      <img
                         className="ml-2"
                         width="30"
@@ -173,13 +188,23 @@ export const Header = () => {
                         ).toString()}`}
                         alt=""
                      />
-                  ) : (
-                     <AccountCircle />
-                  )}
-               </IconButton>
+                  </IconButton>
+               ) : (
+                  <Button
+                     className={classes.signInButton}
+                     startIcon={<AccountCircle />}
+                     onClick={() =>
+                        props.history.push(props.history.push("/signin"))
+                     }
+                  >
+                     SING IN
+                  </Button>
+               )}
             </div>
          </Toolbar>
-         {renderMenu}
+         {renderMenu()}
       </AppBar>
    )
 }
+
+export default withRouter(Header)

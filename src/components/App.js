@@ -2,12 +2,13 @@ import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import { connect } from "react-redux"
 import "./App.scss"
-import { AppLayout } from "./imports/AppLayout"
+import AppLayout from "./imports/AppLayout"
 import { videoActions } from "../actions/videoActions"
 
 class App extends Component {
    componentDidMount() {
-      this.props.initApp()
+      // this.props.initApp()
+      this.props.loadData()
    }
 
    constructor(props) {
@@ -25,6 +26,7 @@ class App extends Component {
 
 const actions = {
    initApp: videoActions.initializeApp,
+   loadData: videoActions.loadBlockchainData,
 }
 
 export default withRouter(connect(null, actions)(App))
