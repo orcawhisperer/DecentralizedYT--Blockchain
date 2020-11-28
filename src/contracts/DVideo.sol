@@ -9,20 +9,38 @@ contract DVideo {
     uint256 public videoCount = 0;
     string public name = "DVideo";
     //Create id=>struct mapping
+    mapping(string => uint256) private videoHashToIndex;
     mapping(uint256 => Video) public videos;
 
     //Create Struct
     struct Video {
         uint256 id;
-        string hash;
+        string videoHash;
         string title;
         address author;
     }
 
     //Create Event
-    event VideoUpload(uint256 id, string hash, string title, address author);
+    event VideoUpload(
+        uint256 id,
+        string videoHash,
+        string title,
+        address author
+    );
 
     constructor() public {}
+
+    function getVideo(string memory _hash)
+        public
+        view
+        returns (string memory, string memory)
+    {
+        if (bytes(videos[videoHashToIndex[_hash]].videoHash).length > 0) {
+            return ("OK", videos[videoHashToIndex[_hash]].videoHash);
+        }
+
+        return ("NOT_OK", "");
+    }
 
     function uploadVideo(string memory _videoHash, string memory _title)
         public
@@ -40,6 +58,7 @@ contract DVideo {
         videoCount++;
         // Add video to the contract
         videos[videoCount] = Video(videoCount, _videoHash, _title, msg.sender);
+        videoHashToIndex[_videoHash] = videoCount;
 
         // Trigger an event
         emit VideoUpload(videoCount, _videoHash, _title, msg.sender);

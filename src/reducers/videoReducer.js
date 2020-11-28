@@ -7,6 +7,14 @@ const initilization = {
    loading: false,
    currentHash: null,
    currentTitle: null,
+   currentVideo: {
+      metadata: {
+         video: "",
+         thumbnail: "",
+      },
+   },
+   isVideoNotFound: false,
+   isVideoLoading: false,
    isWeb3Available: true,
 }
 export default function videoReducer(state = initilization, action) {
@@ -25,10 +33,12 @@ export default function videoReducer(state = initilization, action) {
          }
          break
       case "CHANGE_VIDEO":
+         let currentVideo = state.videos.filter((video) => {
+            return video.id.toNumber() === action.id.toNumber()
+         })
          state = {
             ...state,
-            currentHash: action.hash,
-            currentTitle: action.title,
+            currentVideo: currentVideo[0],
          }
          break
       default:

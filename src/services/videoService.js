@@ -18,17 +18,24 @@ const loadBlockchainData = async () => {
       let videos = []
       for (let i = videoCount; i >= 1; i--) {
          const video = await dvideo.methods.videos(i).call()
-         videos = [...videos, video]
+         const metaData = await appHelperFunctions.getIPFSData(video.videoHash)
+         videos = [
+            ...videos,
+            {
+               id: video.id,
+               hash: video.videoHash,
+               title: video.title,
+               metadata: metaData,
+            },
+         ]
       }
 
       //Set latest video with title to view as default
-      const latest = await dvideo.methods.videos(videoCount).call()
+      // const latest = await dvideo.methods.videos(videoCount).call()
 
       return {
          dvideo: dvideo,
          videos: videos,
-         currentTitle: latest.title,
-         currentHash: latest.hash,
       }
    } else {
       window.alert("DVideo contract not deployed to detected network.")
@@ -36,6 +43,29 @@ const loadBlockchainData = async () => {
    }
 }
 
+const fetchVideo = async (videoHash) => {
+   const web3 = appHelperFunctions.getWeb3Client()
+   //Get network ID
+   const networkId = await web3.eth.net.getId()
+   //Get network data
+   const networkData = DVideo.networks[networkId]
+
+   if (networkData) {
+      const contract = web3.eth.Contract(DVideo.abi, networkData.address)
+      let data = await contract.methods.getVideo(videoHash).call()
+      if (data[0] === "OK") {
+         const metaData = await appHelperFunctions.getIPFSData(data[1])
+         return {
+            hash: data[1],
+            metadata: metaData,
+         }
+      } else {
+         return { error: "video not found" }
+      }
+   }
+}
+
 export const videoServiceActions = {
    loadBlockchainData,
+   fetchVideo,
 }

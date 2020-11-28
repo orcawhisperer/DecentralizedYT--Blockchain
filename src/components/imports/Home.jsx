@@ -1,7 +1,8 @@
 import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
-import { Grid, Header, Loader } from "semantic-ui-react"
+import { Grid, Loader } from "semantic-ui-react"
 import { connect } from "react-redux"
+import Typography from "@material-ui/core/Typography"
 import { videoActions } from "../../actions/videoActions"
 
 class Home extends Component {
@@ -24,23 +25,27 @@ class Home extends Component {
                            >
                               <video
                                  onClick={() => {
-                                    this.props.changeVideo(
-                                       video.hash,
-                                       video.title
-                                    )
+                                    this.props.changeVideo(video.id)
                                     this.props.history.push(
                                        `/video?hash=${video.hash}`
                                     )
                                  }}
+                                 poster={
+                                    video.metadata.thumbnail
+                                       ? `https://ipfs.infura.io/ipfs/${video.metadata.thumbnail}`
+                                       : `/images/default-thumbnail.png`
+                                 }
                                  style={{
                                     cursor: "pointer",
-                                    width: 300,
+                                    width: "100%",
                                     height: 200,
-                                    objectFit: "fill",
+                                    objectFit: "cover",
                                  }}
-                                 src={`https://ipfs.infura.io/ipfs/${video.hash}#t=0.6`}
+                                 src={`https://ipfs.infura.io/ipfs/${video.metadata.video}`}
                               />
-                              <Header>{video.title}</Header>
+                              <Typography variant="body1">
+                                 {video.title}
+                              </Typography>
                            </Grid.Column>
                         )
                      })}

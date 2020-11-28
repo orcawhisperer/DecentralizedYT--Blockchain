@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function NonFound(props) {
    const classes = useStyles()
-   console.log(props.isWeb3Available)
    return (
       <React.Fragment>
          <CssBaseline />

@@ -5,6 +5,7 @@ import { Form, Button, Segment, Loader } from "semantic-ui-react"
 import { videoActions } from "../../actions/videoActions"
 import { appHelperFunctions } from "../../helpers/appHelper"
 import Typography from "@material-ui/core/Typography"
+import TextareaAutosize from "@material-ui/core/TextareaAutosize"
 import LinearProgress from "@material-ui/core/LinearProgress"
 import Snackbar from "@material-ui/core/Snackbar"
 import Alert from "@material-ui/lab/Alert"
@@ -60,6 +61,42 @@ const VideoUpload = (props) => {
                />
             </Form.Field>
             <Form.Field>
+               <label>Decription</label>
+               <TextareaAutosize
+                  aria-label="minimum height"
+                  rowsMin={3}
+                  placeholder="Video description..."
+                  onChange={(e) => {
+                     setVideoTitle(e.target.value)
+                     dispatch(
+                        videoActions.setData("description", e.target.value)
+                     )
+                  }}
+                  required
+               />
+            </Form.Field>
+            <Form.Field>
+               <label>Thumbnail</label>
+               <input
+                  id="thumbnail"
+                  type="file"
+                  accept=".jpeg, .png, .gif, .svg"
+                  onChange={(e) => {
+                     const file = e.target.files[0]
+                     const reader = new window.FileReader()
+                     reader.readAsArrayBuffer(file)
+                     reader.onloadend = () => {
+                        dispatch(
+                           videoActions.setData(
+                              "thumbnail",
+                              Buffer(reader.result)
+                           )
+                        )
+                     }
+                  }}
+               />
+            </Form.Field>
+            <Form.Field>
                <label>File to upload</label>
                <input
                   id="video"
@@ -100,50 +137,104 @@ const VideoUpload = (props) => {
                   //    })
 
                   // Add to IPFS
-                  if (appState.buffer && appState.currentTitle) {
+                  if (
+                     appState.buffer &&
+                     appState.currentTitle &&
+                     appState.description &&
+                     appState.thumbnail
+                  ) {
                      console.log("Submitting to IPFS....")
+
+                     let videoHash = ""
+                     let thumbnailHash = ""
+                     let metaHash = ""
 
                      const ipfs = appHelperFunctions.getIPFSClient()
                      setIsUploading(true)
+                     console.log("uploading video...")
                      ipfs.add(appState.buffer, (err, result) => {
-                        console.log("IPFS result", result)
-                        setIsUploading(false)
                         if (err) {
-                           setIsUploading(true)
+                           setIsUploading(false)
                            console.error(err)
                            return
                         }
-
-                        if (appState.currentTitle && result[0].hash) {
-                           // Put on blockchain
-                           appState.dvideo.methods
-                              .uploadVideo(
-                                 result[0].hash,
-                                 appState.currentTitle
-                              )
-                              .send({ from: account })
-                              .on("transactionHash", (hash) => {
+                        console.log("Video uploaded", result)
+                        videoHash = result[0].hash
+                        if (videoHash) {
+                           ipfs.add(appState.thumbnail, (err, result) => {
+                              console.log("uploading thumbnail ...")
+                              if (err) {
                                  setIsUploading(false)
-                                 setIsErrorPublishing({
-                                    isToast: true,
-                                    isError: false,
-                                    msg: "Video publised - Successfully ",
-                                 })
-                              })
-                              .catch((err) => {
-                                 console.log(err)
-                                 setIsErrorPublishing({
-                                    isToast: true,
-                                    isError: true,
-                                    msg:
-                                       "Video not publised - Transaction failed! ",
-                                 })
-                              })
-                        } else {
-                           setIsErrorPublishing({
-                              isToast: true,
-                              isError: true,
-                              msg: "Fill all the details ",
+                                 console.error(err)
+                                 return
+                              }
+                              thumbnailHash = result[0].hash
+                              const metadata = {
+                                 title: appState.currentTitle,
+                                 description: appState.description,
+                                 thumbnail: thumbnailHash,
+                                 video: videoHash,
+                                 owner: account,
+                                 timestamp: new Date(),
+                              }
+
+                              console.log("uploading metadata...")
+                              ipfs.add(
+                                 Buffer.from(JSON.stringify(metadata)),
+                                 (err, result) => {
+                                    if (err) {
+                                       setIsUploading(false)
+                                       console.error(err)
+                                       return
+                                    }
+                                    metaHash = result[0].hash
+                                    if (
+                                       appState.currentTitle &&
+                                       videoHash &&
+                                       metaHash
+                                    ) {
+                                       // Put on blockchain
+                                       appState.dvideo.methods
+                                          .uploadVideo(
+                                             metaHash,
+                                             appState.currentTitle
+                                          )
+                                          .send({ from: account })
+                                          .on("transactionHash", (hash) => {
+                                             setIsUploading(false)
+                                             setIsErrorPublishing({
+                                                isToast: true,
+                                                isError: false,
+                                                msg:
+                                                   "Video uploaded successfully and will get published once your transaction is confirmed",
+                                             })
+                                          })
+                                          .catch((err) => {
+                                             if (
+                                                err.message &&
+                                                err.message.includes(
+                                                   "User denied transaction signature."
+                                                )
+                                             ) {
+                                                setIsUploading(false)
+                                                setIsErrorPublishing({
+                                                   isToast: true,
+                                                   isError: true,
+                                                   msg:
+                                                      "Video not publised - Transaction failed! ",
+                                                })
+                                             }
+                                          })
+                                    } else {
+                                       setIsUploading(false)
+                                       setIsErrorPublishing({
+                                          isToast: true,
+                                          isError: true,
+                                          msg: "Fill all the details ",
+                                       })
+                                    }
+                                 }
+                              )
                            })
                         }
                      })

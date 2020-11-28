@@ -24,10 +24,50 @@ const loadBlockchainData = () => {
          // dispatch(setData("account", data.account))
          dispatch(setData("dvideo", data.dvideo))
          dispatch(setData("videos", data.videos))
-         dispatch(setData("currentTitle", data.currentTitle))
-         dispatch(setData("currentHash", data.currentHash))
+         // dispatch(setData("currentTitle", data.currentTitle))
+         // dispatch(setData("currentHash", data.currentHash))
          dispatch(setData("loading", false))
       })
+   }
+   // initApp.loadBlockchainData()
+}
+
+const getVideo = (videoHash, videos) => {
+   return (dispatch) => {
+      dispatch(setData("isVideoLoading", true))
+      dispatch(setData("currentVideo", {}))
+      if (videos && videos.length > 0) {
+         let video = videos.filter((video) => {
+            return video.hash === videoHash
+         })
+         if (video && video.hash) {
+            dispatch(setData("currentVideo", video))
+         } else {
+            videoServiceActions.fetchVideo(videoHash).then((data) => {
+               if (data.error) {
+                  dispatch(setData("isVideoNotFound", true))
+                  dispatch(setData("isVideoLoading", false))
+                  dispatch(setData("currentVideo", {}))
+               } else {
+                  dispatch(setData("currentVideo", data))
+                  dispatch(setData("isVideoNotFound", false))
+                  dispatch(setData("isVideoLoading", false))
+               }
+            })
+         }
+      } else {
+         videoServiceActions.fetchVideo(videoHash).then((data) => {
+            if (data.error) {
+               dispatch(setData("isVideoNotFound", true))
+               dispatch(setData("currentVideo", {}))
+               dispatch(setData("isVideoLoading", false))
+            } else {
+               dispatch(setData("currentVideo", data))
+               dispatch(setData("isVideoNotFound", false))
+               dispatch(setData("isVideoLoading", false))
+            }
+         })
+      }
    }
    // initApp.loadBlockchainData()
 }
@@ -41,11 +81,10 @@ const updateApp = (data) => {
 }
 
 //Change Video
-const changeVideo = (hash, title) => {
+const changeVideo = (id) => {
    return {
       type: "CHANGE_VIDEO",
-      hash: hash,
-      title: title,
+      id: id,
    }
 }
 
@@ -55,4 +94,5 @@ export const videoActions = {
    loadBlockchainData,
    updateApp,
    changeVideo,
+   getVideo,
 }

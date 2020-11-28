@@ -108,9 +108,7 @@ const Header = (props) => {
       setAnchorEl(null)
    }
 
-   useEffect(() => {
-      console.log(account)
-   }, [account])
+   useEffect(() => {}, [account])
 
    const renderMenu = () => {
       return (

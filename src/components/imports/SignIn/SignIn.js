@@ -57,7 +57,6 @@ function SignIn(props) {
    const account = useSelector((state) => state.user.account)
 
    useEffect(() => {
-      console.log(props)
       if (account) {
          props.history.push(
             props.location.state && props.location.state.callbackUrl
