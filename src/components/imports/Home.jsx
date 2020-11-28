@@ -20,14 +20,14 @@ class Home extends Component {
                               key={video.hash}
                               style={{
                                  textAlign: "center",
-                                 //   padding: "5%",
+                                 marginBottom: "3%",
                               }}
                            >
                               <video
                                  onClick={() => {
                                     this.props.changeVideo(video.id)
                                     this.props.history.push(
-                                       `/video?hash=${video.hash}`
+                                       `/watch?video=${video.hash}`
                                     )
                                  }}
                                  poster={

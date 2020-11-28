@@ -67,7 +67,7 @@ const AppLayout = () => {
                <Switch>
                   <Route exact path="/" component={() => <Home />} />
                   <Route exact path="/signin" component={() => <SignIn />} />
-                  <Route exact path="/video" component={() => <Main />} />
+                  <Route exact path="/watch" component={() => <Main />} />
                   <Route
                      exact
                      path="/video/upload"

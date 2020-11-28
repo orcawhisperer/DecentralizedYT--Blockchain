@@ -9,13 +9,12 @@ import VideoDescription from "./VideoDescription"
 
 class Main extends Component {
    render() {
-      console.log("refreshed")
       return (
          <React.Fragment>
             {this.props.isLoading ? (
                <Loader active={this.props.isLoading}>Loading...</Loader>
             ) : (
-               <Grid>
+               <Grid relaxed>
                   <Grid.Row>
                      <Grid.Column width={12}>
                         <Grid.Row>
@@ -26,7 +25,7 @@ class Main extends Component {
                               }}
                               poster={
                                  this.props.isVideoLoading
-                                    ? `http://iphonewrd.com/img/loading.gif`
+                                    ? ``
                                     : this.props.isVideoNotFound
                                     ? `/images/video-not-found.webp`
                                     : this.props.currentVideo.metadata.thumbnail
@@ -76,7 +75,7 @@ class Main extends Component {
 
                      <Grid.Column
                         width={4}
-                        style={{ height: 511, overflow: "auto" }}
+                        style={{ height: window.innerHeight, overflow: "auto" }}
                      >
                         {this.props.videos.map((video) => {
                            if (video.hash !== this.props.currentVideo.hash) {
@@ -88,9 +87,10 @@ class Main extends Component {
                                           padding: "2%",
                                           width: `90%`,
                                           margin: `auto`,
+                                          marginBottom: "1%",
                                        }}
                                     >
-                                       <Link to={`/video?hash=${video.hash}`}>
+                                       <Link to={`/watch?video=${video.hash}`}>
                                           <video
                                              poster={
                                                 video.metadata.thumbnail
@@ -100,7 +100,7 @@ class Main extends Component {
                                              style={{
                                                 cursor: "pointer",
                                                 width: "100%",
-                                                height: "100%",
+                                                height: 150,
                                                 objectFit: "fill",
                                              }}
                                              src={`https://ipfs.infura.io/ipfs/${video.metadata.video}`}

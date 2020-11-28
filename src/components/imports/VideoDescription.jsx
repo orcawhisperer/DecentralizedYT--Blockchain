@@ -17,6 +17,7 @@ import ShareIcon from "@material-ui/icons/Share"
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
 import { appHelperFunctions } from "../../helpers/appHelper"
+import ReactTextFormat from "react-text-format"
 
 const useStyles = makeStyles((theme) => ({
    root: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
       transform: "rotate(180deg)",
    },
    avatar: {
-      backgroundColor: red[500],
+      //   backgroundColor: red[500],
    },
 }))
 
@@ -52,11 +53,9 @@ export default function VideoDescription(props) {
    return (
       <Card className={classes.root}>
          <CardHeader
-            className={classes.cardHeader}
             avatar={
                <Avatar aria-label="recipe" className={classes.avatar}>
                   <img
-                     className="ml-2"
                      width="100%"
                      height="100%"
                      src={`data:image/png;base64,${new Identicon(
@@ -80,8 +79,15 @@ export default function VideoDescription(props) {
             )}
          />
          <CardContent>
-            <Typography variant="body1" color="textSecondary" component="p">
-               {props.videoDescription}
+            <Typography
+               style={{
+                  whiteSpace: "pre-line",
+               }}
+               variant="body1"
+               color="textSecondary"
+               component="p"
+            >
+               <ReactTextFormat>{props.videoDescription}</ReactTextFormat>
             </Typography>
          </CardContent>
          {/* <CardActions disableSpacing>
