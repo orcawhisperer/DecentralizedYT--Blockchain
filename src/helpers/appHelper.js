@@ -1,3 +1,11 @@
+// Firebase App (the core Firebase SDK) is always required and
+// must be listed before other Firebase SDKs
+import firebase from "firebase/app"
+
+// Add the Firebase services that you want to use
+import "firebase/auth"
+import "firebase/firestore"
+
 const ipfsClient = require("ipfs-http-client")
 
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
@@ -29,6 +37,22 @@ const getIPFSData = async (hash) => {
       })
 }
 
+const getFireBaseClient = () => {
+   const firebaseConfig = {
+      apiKey: "AIzaSyDKC3oqRPo1pVcvWFeY4Z0hjwx6vozWkFg",
+      authDomain: "peervids-da229.firebaseapp.com",
+      databaseURL: "https://peervids-da229.firebaseio.com",
+      projectId: "peervids-da229",
+      storageBucket: "peervids-da229.appspot.com",
+      messagingSenderId: "379401439868",
+      appId: "1:379401439868:web:895f779d4d10107aead7f9",
+      measurementId: "G-29Y0H5ZLD7",
+   }
+   // Initialize Firebase
+   firebase.initializeApp(firebaseConfig)
+   return firebase
+}
+
 const covertISOToDateTimeString = (isoDate) => {
    let date = new Date(isoDate)
 
@@ -43,4 +67,5 @@ export const appHelperFunctions = {
    getWeb3Client,
    getIPFSData,
    covertISOToDateTimeString,
+   getFireBaseClient,
 }

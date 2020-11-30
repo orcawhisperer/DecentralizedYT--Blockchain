@@ -1,57 +1,56 @@
 import React, { Component } from "react"
-import { withRouter } from "react-router-dom"
-import { Grid, Loader } from "semantic-ui-react"
+import { withRouter, Link } from "react-router-dom"
+import { Grid } from "semantic-ui-react"
 import { connect } from "react-redux"
-import Typography from "@material-ui/core/Typography"
 import { videoActions } from "../../actions/videoActions"
+import VideoCard from "./VideoCard/VideoCard"
 
 class Home extends Component {
+   renderVideoCards = () => {
+      let cards = []
+      if (this.props.isLoading) {
+         for (let index = 0; index < 8; index++) {
+            cards.push(
+               <Grid.Column
+                  key={`home-video-placeholder${index}`}
+                  style={{
+                     textAlign: "center",
+                  }}
+               >
+                  <VideoCard loading={this.props.isLoading} />
+               </Grid.Column>
+            )
+         }
+      } else {
+         cards = []
+         this.props.videos.forEach((video) => {
+            cards.push(
+               <Grid.Column
+                  key={video.hash}
+                  style={{
+                     textAlign: "center",
+                  }}
+               >
+                  <Link to={`/watch?video=${video.hash}`}>
+                     <VideoCard
+                        loading={this.props.isLoading}
+                        title={video.metadata.title}
+                        poster={`https://ipfs.infura.io/ipfs/${video.metadata.thumbnail}`}
+                        src={`https://ipfs.infura.io/ipfs/${video.metadata.video}`}
+                     />
+                  </Link>
+               </Grid.Column>
+            )
+         })
+      }
+      return cards
+   }
    render() {
       return (
          <React.Fragment>
-            {this.props.isLoading ? (
-               <Loader active={this.props.isLoading}>Loading...</Loader>
-            ) : (
-               <Grid stackable columns={4}>
-                  <Grid.Row>
-                     {this.props.videos.map((video) => {
-                        return (
-                           <Grid.Column
-                              key={video.hash}
-                              style={{
-                                 textAlign: "center",
-                                 marginBottom: "3%",
-                              }}
-                           >
-                              <video
-                                 onClick={() => {
-                                    this.props.changeVideo(video.id)
-                                    this.props.history.push(
-                                       `/watch?video=${video.hash}`
-                                    )
-                                 }}
-                                 poster={
-                                    video.metadata.thumbnail
-                                       ? `https://ipfs.infura.io/ipfs/${video.metadata.thumbnail}`
-                                       : `/images/default-thumbnail.png`
-                                 }
-                                 style={{
-                                    cursor: "pointer",
-                                    width: "100%",
-                                    height: 200,
-                                    objectFit: "cover",
-                                 }}
-                                 src={`https://ipfs.infura.io/ipfs/${video.metadata.video}`}
-                              />
-                              <Typography variant="body1">
-                                 {video.title}
-                              </Typography>
-                           </Grid.Column>
-                        )
-                     })}
-                  </Grid.Row>
-               </Grid>
-            )}
+            <Grid stackable columns={4}>
+               <Grid.Row>{this.renderVideoCards()}</Grid.Row>
+            </Grid>
          </React.Fragment>
       )
    }

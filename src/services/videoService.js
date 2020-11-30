@@ -18,16 +18,25 @@ const loadBlockchainData = async () => {
       let videos = []
       for (let i = videoCount; i >= 1; i--) {
          const video = await dvideo.methods.videos(i).call()
-         const metaData = await appHelperFunctions.getIPFSData(video.videoHash)
-         videos = [
-            ...videos,
-            {
-               id: video.id,
-               hash: video.videoHash,
-               title: video.title,
-               metadata: metaData,
-            },
-         ]
+         if (
+            ![
+               "QmSQDooHbWPAsAihLdwf9qhWS6Q8Vr6ezNWr8VK1keTScS",
+               "QmdXh5q1dwQzGBpXHNqK9HanRTs4Gf3UWDBdZm5TnfawPm",
+            ].includes(video.videoHash)
+         ) {
+            const metaData = await appHelperFunctions.getIPFSData(
+               video.videoHash
+            )
+            videos = [
+               ...videos,
+               {
+                  id: video.id,
+                  hash: video.videoHash,
+                  title: video.title,
+                  metadata: metaData,
+               },
+            ]
+         }
       }
 
       //Set latest video with title to view as default

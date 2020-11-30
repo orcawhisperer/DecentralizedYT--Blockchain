@@ -1,23 +1,24 @@
 import React from "react"
 import Identicon from "identicon.js"
 import { makeStyles } from "@material-ui/core/styles"
-import clsx from "clsx"
+// import clsx from "clsx"
 import Card from "@material-ui/core/Card"
 import CardHeader from "@material-ui/core/CardHeader"
-import CardMedia from "@material-ui/core/CardMedia"
+// import CardMedia from "@material-ui/core/CardMedia"
 import CardContent from "@material-ui/core/CardContent"
-import CardActions from "@material-ui/core/CardActions"
-import Collapse from "@material-ui/core/Collapse"
+// import CardActions from "@material-ui/core/CardActions"
+// import Collapse from "@material-ui/core/Collapse"
 import Avatar from "@material-ui/core/Avatar"
 import IconButton from "@material-ui/core/IconButton"
 import Typography from "@material-ui/core/Typography"
 import { red } from "@material-ui/core/colors"
-import FavoriteIcon from "@material-ui/icons/Favorite"
-import ShareIcon from "@material-ui/icons/Share"
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
+// import FavoriteIcon from "@material-ui/icons/Favorite"
+// import ShareIcon from "@material-ui/icons/Share"
+// import ExpandMoreIcon from "@material-ui/icons/ExpandMore"
 import MoreVertIcon from "@material-ui/icons/MoreVert"
-import { appHelperFunctions } from "../../helpers/appHelper"
+import { appHelperFunctions } from "../../../helpers/appHelper"
 import ReactTextFormat from "react-text-format"
+import Skeleton from "@material-ui/lab/Skeleton"
 
 const useStyles = makeStyles((theme) => ({
    root: {
@@ -54,41 +55,80 @@ export default function VideoDescription(props) {
       <Card className={classes.root}>
          <CardHeader
             avatar={
-               <Avatar aria-label="recipe" className={classes.avatar}>
-                  <img
-                     width="100%"
-                     height="100%"
-                     src={`data:image/png;base64,${new Identicon(
-                        props.videoOwner
-                           ? props.videoOwner
-                           : "thisisarandomhashforavataar",
-                        30
-                     ).toString()}`}
-                     alt=""
+               props.isVideoLoading ? (
+                  <Skeleton
+                     animation="wave"
+                     variant="circle"
+                     width={40}
+                     height={40}
                   />
-               </Avatar>
+               ) : (
+                  <Avatar aria-label="recipe" className={classes.avatar}>
+                     <img
+                        width="100%"
+                        height="100%"
+                        src={`data:image/png;base64,${new Identicon(
+                           props.videoOwner
+                              ? props.videoOwner
+                              : "thisisarandomhashforavataar",
+                           30
+                        ).toString()}`}
+                        alt=""
+                     />
+                  </Avatar>
+               )
             }
             action={
-               <IconButton aria-label="settings">
-                  <MoreVertIcon />
-               </IconButton>
+               props.isVideoLoading ? null : (
+                  <IconButton aria-label="settings">
+                     <MoreVertIcon />
+                  </IconButton>
+               )
             }
-            title={props.videoTitle}
-            subheader={appHelperFunctions.covertISOToDateTimeString(
-               props.videoTimeStamp
-            )}
+            title={
+               props.isVideoLoading ? (
+                  <Skeleton
+                     animation="wave"
+                     height={10}
+                     width="80%"
+                     style={{ marginBottom: 6 }}
+                  />
+               ) : (
+                  props.videoTitle
+               )
+            }
+            subheader={
+               props.isVideoLoading ? (
+                  <Skeleton animation="wave" height={10} width="40%" />
+               ) : (
+                  appHelperFunctions.covertISOToDateTimeString(
+                     props.videoTimeStamp
+                  )
+               )
+            }
          />
          <CardContent>
-            <Typography
-               style={{
-                  whiteSpace: "pre-line",
-               }}
-               variant="body1"
-               color="textSecondary"
-               component="p"
-            >
-               <ReactTextFormat>{props.videoDescription}</ReactTextFormat>
-            </Typography>
+            {props.isVideoLoading ? (
+               <React.Fragment>
+                  <Skeleton
+                     animation="wave"
+                     height={10}
+                     style={{ marginBottom: 6 }}
+                  />
+                  <Skeleton animation="wave" height={10} width="80%" />
+               </React.Fragment>
+            ) : (
+               <Typography
+                  style={{
+                     whiteSpace: "pre-line",
+                  }}
+                  variant="body1"
+                  color="textSecondary"
+                  component="p"
+               >
+                  <ReactTextFormat>{props.videoDescription}</ReactTextFormat>
+               </Typography>
+            )}
          </CardContent>
          {/* <CardActions disableSpacing>
             <IconButton aria-label="add to favorites">

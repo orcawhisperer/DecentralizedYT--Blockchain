@@ -35,7 +35,14 @@ const loadBlockchainData = () => {
 const getVideo = (videoHash, videos) => {
    return (dispatch) => {
       dispatch(setData("isVideoLoading", true))
-      dispatch(setData("currentVideo", {}))
+      dispatch(
+         setData("currentVideo", {
+            metadata: {
+               video: "",
+               thumbnail: "",
+            },
+         })
+      )
       if (videos && videos.length > 0) {
          let video = videos.filter((video) => {
             return video.hash === videoHash
@@ -47,7 +54,14 @@ const getVideo = (videoHash, videos) => {
                if (data.error) {
                   dispatch(setData("isVideoNotFound", true))
                   dispatch(setData("isVideoLoading", false))
-                  dispatch(setData("currentVideo", {}))
+                  dispatch(
+                     setData("currentVideo", {
+                        metadata: {
+                           video: "",
+                           thumbnail: "",
+                        },
+                     })
+                  )
                } else {
                   dispatch(setData("currentVideo", data))
                   dispatch(setData("isVideoNotFound", false))
@@ -59,7 +73,14 @@ const getVideo = (videoHash, videos) => {
          videoServiceActions.fetchVideo(videoHash).then((data) => {
             if (data.error) {
                dispatch(setData("isVideoNotFound", true))
-               dispatch(setData("currentVideo", {}))
+               dispatch(
+                  setData("currentVideo", {
+                     metadata: {
+                        video: "",
+                        thumbnail: "",
+                     },
+                  })
+               )
                dispatch(setData("isVideoLoading", false))
             } else {
                dispatch(setData("currentVideo", data))

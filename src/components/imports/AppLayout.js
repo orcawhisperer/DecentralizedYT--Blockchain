@@ -6,10 +6,10 @@ import CssBaseline from "@material-ui/core/CssBaseline"
 import Header from "./HeaderNav/Header"
 import { SideNav } from "./SideBar/SideNav"
 import { useSelector } from "react-redux"
-import VideoUpload from "./VideoUpload"
+import VideoUpload from "./VideoUpload/VideoUpload"
 import NotFound from "./NotFound"
 import Home from "./Home"
-import Main from "./Main"
+import VideoScreen from "./VideoScreen/VideoScreen"
 import SignIn from "./SignIn/SignIn"
 
 const drawerWidth = 240
@@ -67,7 +67,11 @@ const AppLayout = () => {
                <Switch>
                   <Route exact path="/" component={() => <Home />} />
                   <Route exact path="/signin" component={() => <SignIn />} />
-                  <Route exact path="/watch" component={() => <Main />} />
+                  <Route
+                     exact
+                     path="/watch"
+                     component={() => <VideoScreen />}
+                  />
                   <Route
                      exact
                      path="/video/upload"
