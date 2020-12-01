@@ -1,6 +1,6 @@
 # DecentralizedYT--Blockchain
 
-## Fully decentralized application published on IPFS
+## Fully decentralized youtube like video sharing application published on IPFS
 - Blockchaing based video streaming application using truffle, web3js and react frameworks
 
 ## 🔧 Project Diagram:
