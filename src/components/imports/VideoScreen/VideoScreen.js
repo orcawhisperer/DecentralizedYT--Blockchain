@@ -7,8 +7,15 @@ import { Divider } from "@material-ui/core"
 import VideoCard from "../VideoCard/VideoCard"
 import VideoDescription from "./VideoDescription"
 import Player from "../Player/Player"
+import { appHelperFunctions } from "../../../helpers/appHelper"
 
 class VideoScreen extends Component {
+   constructor(props) {
+      super(props)
+      this.state = {
+         views: 0,
+      }
+   }
    renderVideoCards = () => {
       let cards = []
       if (this.props.isLoading) {
@@ -41,6 +48,12 @@ class VideoScreen extends Component {
    }
 
    render() {
+      if (
+         !this.props.isVideoLoading &&
+         this.props.currentVideo.metadata.video
+      ) {
+         this.getViewsData(this.props.currentVideo.metadata.video)
+      }
       return (
          <React.Fragment>
             <Grid relaxed>
@@ -48,6 +61,7 @@ class VideoScreen extends Component {
                   <Grid.Column width={12}>
                      <Grid.Row>
                         <Player
+                           views={this.state.views}
                            sources={{
                               type: "video",
                               poster: `https://ipfs.infura.io/ipfs/${this.props.currentVideo.metadata.thumbnail}`,
@@ -67,6 +81,7 @@ class VideoScreen extends Component {
                         {this.props.currentVideo.metadata ? (
                            <VideoDescription
                               isVideoLoading={this.props.isVideoLoading}
+                              videoViews={this.state.views}
                               videoTitle={
                                  this.props.currentVideo.metadata.title
                               }
@@ -96,8 +111,20 @@ class VideoScreen extends Component {
       )
    }
 
+   getViewsData = (hash) => {
+      let fb = appHelperFunctions.getFireBaseClient()
+      const dbREf = fb.database().ref().child(hash)
+      dbREf.on("value", (snap) => {
+         let views = snap.val()
+         if (this.state.views !== views) {
+            this.setState({
+               views: views,
+            })
+         }
+      })
+   }
+
    componentDidMount() {
-      // this.props.getVideo()
       let search = this.props.location.search.split("=")[1]
       if (search && search.length > 0) {
          this.props.getVideo(search, this.props.videos)

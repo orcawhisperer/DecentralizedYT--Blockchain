@@ -11,6 +11,8 @@ import Snackbar from "@material-ui/core/Snackbar"
 import Alert from "@material-ui/lab/Alert"
 import { withRouter } from "react-router-dom"
 
+const MAX_FILE_SIZE = 100000000
+
 const VideoUpload = (props) => {
    const [videoTitle, setVideoTitle] = useState(props.title)
    const [isUploading, setIsUploading] = useState(false)
@@ -104,12 +106,23 @@ const VideoUpload = (props) => {
                   accept=".mp4, .mkv, .ogg, .wmv"
                   onChange={(e) => {
                      const file = e.target.files[0]
-                     const reader = new window.FileReader()
-                     reader.readAsArrayBuffer(file)
-                     reader.onloadend = () => {
-                        dispatch(
-                           videoActions.setData("buffer", Buffer(reader.result))
-                        )
+                     if (!(file.size > MAX_FILE_SIZE)) {
+                        const reader = new window.FileReader()
+                        reader.readAsArrayBuffer(file)
+                        reader.onloadend = () => {
+                           dispatch(
+                              videoActions.setData(
+                                 "buffer",
+                                 Buffer(reader.result)
+                              )
+                           )
+                        }
+                     } else {
+                        setIsErrorPublishing({
+                           isToast: true,
+                           isError: true,
+                           msg: "Oops! Can't upload file more that 100MB.",
+                        })
                      }
                   }}
                />
@@ -141,7 +154,8 @@ const VideoUpload = (props) => {
                      appState.buffer &&
                      appState.currentTitle &&
                      appState.description &&
-                     appState.thumbnail
+                     appState.thumbnail &&
+                     !isErrorPublishing.isError
                   ) {
                      console.log("Submitting to IPFS....")
 
@@ -202,6 +216,11 @@ const VideoUpload = (props) => {
                                           .send({ from: account })
                                           .on("transactionHash", (hash) => {
                                              setIsUploading(false)
+                                             let firebase = appHelperFunctions.getFireBaseClient()
+                                             firebase
+                                                .database()
+                                                .ref(`${videoHash}`)
+                                                .set(1)
                                              setIsErrorPublishing({
                                                 isToast: true,
                                                 isError: false,
@@ -242,7 +261,7 @@ const VideoUpload = (props) => {
                      setIsErrorPublishing({
                         isToast: true,
                         isError: true,
-                        msg: "Fill all the details ",
+                        msg: "Fill all the details",
                      })
                   }
                }}

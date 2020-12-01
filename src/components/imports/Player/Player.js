@@ -4,14 +4,27 @@ import { withRouter } from "react-router-dom"
 import PropTypes from "prop-types"
 import plyr from "plyr"
 import "plyr/dist/plyr.css"
+import { appHelperFunctions } from "../../../helpers/appHelper"
 
 class Player extends React.Component {
+   state = {
+      isViewUpadating: false,
+   }
+
    componentDidMount() {
       this.player = new plyr(".js-plyr", this.props.options)
       this.player.source = this.props.sources
    }
 
    componentWillUnmount() {
+      if (!this.state.isVideoLoading) {
+         let firebase = appHelperFunctions.getFireBaseClient()
+         // console.log("updating views")
+         firebase
+            .database()
+            .ref(`${this.props.video}`)
+            .set(this.props.views + 1)
+      }
       this.player.destroy()
    }
 
@@ -99,6 +112,7 @@ Player.propTypes = {
    sources: PropTypes.object,
    source: PropTypes.func,
    destroy: PropTypes.func,
+   views: PropTypes.number,
 }
 
 const mapStateToProps = (state) => {

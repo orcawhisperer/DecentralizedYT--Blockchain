@@ -4,7 +4,7 @@ import firebase from "firebase/app"
 
 // Add the Firebase services that you want to use
 import "firebase/auth"
-import "firebase/firestore"
+import "firebase/database"
 
 const ipfsClient = require("ipfs-http-client")
 
@@ -48,8 +48,11 @@ const getFireBaseClient = () => {
       appId: "1:379401439868:web:895f779d4d10107aead7f9",
       measurementId: "G-29Y0H5ZLD7",
    }
-   // Initialize Firebase
-   firebase.initializeApp(firebaseConfig)
+   if (!firebase.apps.length) {
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig)
+   }
+
    return firebase
 }
 

@@ -101,9 +101,13 @@ export default function VideoDescription(props) {
                props.isVideoLoading ? (
                   <Skeleton animation="wave" height={10} width="40%" />
                ) : (
-                  appHelperFunctions.covertISOToDateTimeString(
-                     props.videoTimeStamp
-                  )
+                  <span>
+                     {props.videoViews +
+                        " views - " +
+                        appHelperFunctions.covertISOToDateTimeString(
+                           props.videoTimeStamp
+                        )}
+                  </span>
                )
             }
          />
