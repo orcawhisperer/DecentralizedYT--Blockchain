@@ -33,8 +33,8 @@ const useStyles = makeStyles((theme) => ({
       color: `black`,
    },
    appBarLogo: {
-      width: 100,
-      height: 30,
+      width: 125,
+      height: 70,
       cursor: "pointer",
    },
    search: {
