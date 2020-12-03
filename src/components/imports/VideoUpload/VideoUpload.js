@@ -11,7 +11,7 @@ import Snackbar from "@material-ui/core/Snackbar"
 import Alert from "@material-ui/lab/Alert"
 import { withRouter } from "react-router-dom"
 
-const MAX_FILE_SIZE = 100000000
+const MAX_FILE_SIZE = 100 * 1024 * 1024
 
 const VideoUpload = (props) => {
    const [videoTitle, setVideoTitle] = useState(props.title)
@@ -134,21 +134,6 @@ const VideoUpload = (props) => {
                type="submit"
                style={{ marginTop: "2%" }}
                onClick={() => {
-                  // let data = {
-                  //    a: "123",
-                  //    b: "test",
-                  // }
-
-                  // ipfs.add(Buffer.from(JSON.stringify(data)))
-                  //    .then((res) => {
-                  //       const hash = res[0].hash
-                  //       console.log("added data hash:", hash)
-                  //       return ipfs.cat(hash)
-                  //    })
-                  //    .then((output) => {
-                  //       console.log("retrieved data:", JSON.parse(output))
-                  //    })
-
                   // Add to IPFS
                   if (
                      appState.buffer &&

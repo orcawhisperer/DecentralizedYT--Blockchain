@@ -4,8 +4,7 @@ import { connect } from "react-redux"
 import "./App.scss"
 import AppLayout from "./imports/AppLayout"
 import { videoActions } from "../actions/videoActions"
-import { appHelperFunctions } from "../helpers/appHelper"
-import { values } from "lodash"
+
 
 class App extends Component {
    componentDidMount() {
