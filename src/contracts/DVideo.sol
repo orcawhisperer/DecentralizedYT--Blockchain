@@ -42,6 +42,21 @@ contract DVideo {
         return ("NOT_OK", "");
     }
 
+    function deleteVideo(string memory _hash)
+        public
+        returns (string memory, string memory)
+    {
+        if (bytes(videos[videoHashToIndex[_hash]].videoHash).length > 0) {
+            if (msg.sender == videos[videoHashToIndex[_hash]].author) {
+                delete videos[videoHashToIndex[_hash]];
+                delete videoHashToIndex[_hash];
+            } else {
+                return ("NOT_OK", "Unauthorized");
+            }
+        }
+        return ("NOT_OK", "video not found");
+    }
+
     function uploadVideo(string memory _videoHash, string memory _title)
         public
     {
