@@ -8,4 +8,4 @@
 
 [Checkout the site here]
 
-[Checkout the site here]: https://bitter-water-1036.on.fleek.co/
+[Checkout the site here]: https://www.peervids.fun/
