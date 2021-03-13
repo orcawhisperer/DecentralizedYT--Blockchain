@@ -22,6 +22,7 @@ const loadBlockchainData = async () => {
             ![
                "QmSQDooHbWPAsAihLdwf9qhWS6Q8Vr6ezNWr8VK1keTScS",
                "QmdXh5q1dwQzGBpXHNqK9HanRTs4Gf3UWDBdZm5TnfawPm",
+               "QmeEw1uSS1SQezKc4srLqbwMyvQNq6ZmNtmoi6yicxHaPx"
             ].includes(video.videoHash)
          ) {
             const metaData = await appHelperFunctions.getIPFSData(
