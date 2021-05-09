@@ -50,7 +50,7 @@ const getFireBaseClient = () => {
    if (!firebase.apps.length) {
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig)
-      firebase.analytics()
+      // firebase.analytics()
    }
 
    return firebase
