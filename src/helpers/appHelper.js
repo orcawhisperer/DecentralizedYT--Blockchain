@@ -40,7 +40,7 @@ const getIPFSData = async (hash) => {
 const getFireBaseClient = () => {
    const firebaseConfig = {
       apiKey: "AIzaSyCKCgTIzYMrOzDKN7Dqzva9cveYGNFk1cE",
-      authDomain: "decentral-yt.firebaseapp.com",
+      authDomain: "peervids.fun",
       projectId: "decentral-yt",
       storageBucket: "decentral-yt.appspot.com",
       messagingSenderId: "475781738548",
