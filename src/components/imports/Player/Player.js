@@ -19,7 +19,6 @@ class Player extends React.Component {
    componentWillUnmount() {
       if (!this.state.isVideoLoading) {
          let firebase = appHelperFunctions.getFireBaseClient()
-         // console.log("updating views")
          firebase
             .database()
             .ref(`${this.props.video}`)

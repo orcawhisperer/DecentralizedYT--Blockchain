@@ -5,7 +5,6 @@ import "./App.scss"
 import AppLayout from "./imports/AppLayout"
 import { videoActions } from "../actions/videoActions"
 
-
 class App extends Component {
    componentDidMount() {
       // this.props.initApp()

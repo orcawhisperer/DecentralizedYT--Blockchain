@@ -39,18 +39,18 @@ const getIPFSData = async (hash) => {
 
 const getFireBaseClient = () => {
    const firebaseConfig = {
-      apiKey: "AIzaSyDKC3oqRPo1pVcvWFeY4Z0hjwx6vozWkFg",
-      authDomain: "peervids-da229.firebaseapp.com",
-      databaseURL: "https://peervids-da229.firebaseio.com",
-      projectId: "peervids-da229",
-      storageBucket: "peervids-da229.appspot.com",
-      messagingSenderId: "379401439868",
-      appId: "1:379401439868:web:895f779d4d10107aead7f9",
-      measurementId: "G-29Y0H5ZLD7",
+      apiKey: "AIzaSyCKCgTIzYMrOzDKN7Dqzva9cveYGNFk1cE",
+      authDomain: "decentral-yt.firebaseapp.com",
+      projectId: "decentral-yt",
+      storageBucket: "decentral-yt.appspot.com",
+      messagingSenderId: "475781738548",
+      appId: "1:475781738548:web:cf0f041d7ddf2b1de95a61",
+      measurementId: "G-GP9V104T67",
    }
    if (!firebase.apps.length) {
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig)
+      firebase.analytics()
    }
 
    return firebase
