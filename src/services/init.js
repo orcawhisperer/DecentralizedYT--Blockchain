@@ -1,6 +1,8 @@
 import DVideo from "../abis/DVideo.json"
 const { createAlchemyWeb3 } = require("@alch/alchemy-web3")
-const web3 = createAlchemyWeb3("https://eth-rinkeby.alchemyapi.io/v2/wTZV3COMJ4xZ_CaEY8ALqzXXpAhjjB4-")
+const web3 = createAlchemyWeb3(
+   "https://eth-rinkeby.alchemyapi.io/v2/wTZV3COMJ4xZ_CaEY8ALqzXXpAhjjB4-"
+)
 
 const ipfsClient = require("ipfs-http-client")
 
@@ -14,8 +16,15 @@ const getIPFSClient = () => {
 
 const loadWeb3 = async () => {
    if (window.ethereum) {
-      const accounts = await window.ethereum.enable()
-      return accounts
+      try {
+         const accounts = await await window.ethereum.request({
+            method: "eth_requestAccounts",
+         })
+         return accounts
+      } catch (error) {
+         const err = { error: "Web3 not available" }
+         return err
+      }
    } else {
       const err = { error: "Web3 not available" }
       return err
